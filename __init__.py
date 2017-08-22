@@ -1,21 +1,11 @@
 from flask import Flask, render_template, redirect, url_for, request, g
 import sqlite3
-import string
+import hashlib
 
 app = Flask(__name__)
 
-
-def caesar(plaintext, shift):
-    import unicodedata
-    plaintext = unicodedata.normalize('NFKD', plaintext).encode('ascii','ignore')
-    alphabet = '1fsf34sfa324e32d3vylker2fb'
-    shifted_alphabet = alphabet[shift:] + alphabet[:shift]
-    table = string.maketrans(alphabet, shifted_alphabet)
-    return plaintext.translate(table)
-
-# niko pass 'pass_123'
 def check_password(hashed_password, user_password):
-    return hashed_password == caesar(user_password, 2)
+    return hashed_password == hashlib.md5(user_password.encode()).hexdigest()
 
 def validate(username, password):
     con = sqlite3.connect('static/UserXor.db')
