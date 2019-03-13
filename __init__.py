@@ -2,11 +2,13 @@ from flask import Flask, render_template, redirect, url_for, request, g
 
 app = Flask(__name__)
 
+secret_password = 'admin'
+
 @app.route('/', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+        if request.form['username'] != 'admin' or request.form['password'] != secret_password:
             error = 'Invalid Credentials. Please try again.'
         else:
             return redirect(url_for('secret'))
